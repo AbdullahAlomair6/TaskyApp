@@ -1,16 +1,26 @@
-# tasky
+# 📝 Tasky
 
-A new Flutter project.
+Tasky is a simple and elegant **Flutter productivity app** designed to help users organize their tasks, set priorities, and track their daily progress — all in one place.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- 👋 Welcome screen to personalize your experience  
+- ✅ Add, view, and complete daily tasks  
+- ⭐ Separate section for high-priority tasks  
+- 📊 Progress indicator showing achieved tasks  
+- 🌓 Clean and minimal dark UI design  
+- 🧭 Bottom navigation for easy access to pages (Home, To Do, Completed, Profile)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📱 App Screens (Figma Design)
+
+### 🖼️ Welcome Screen
+![Welcome Screen](./To%20do%20app.png)
+
+### 🖼️ Home Screen
+![Home Screen](./To%20do%20app%20(1).png)
+
+---
