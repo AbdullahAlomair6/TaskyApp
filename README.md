@@ -21,6 +21,6 @@ Tasky is a simple and elegant **Flutter productivity app** designed to help user
 ![Welcome Screen](assets/images/to_do_app_1.png)
 
 ### 🖼️ Home Screen
-![Home Screen](TaskyApp/assets/to_do_app.png)
+![Home Screen](assets/images/to_do_app.png)
 
 ---
