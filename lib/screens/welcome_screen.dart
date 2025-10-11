@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/widget/custom_text_form_field.dart';
 import 'package:tasky/screens/home_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -80,41 +81,22 @@ class WelcomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Full Name',
-                          style: TextStyle(
-                            color: Color(0xffFFFCFC),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        TextFormField(
+                        CustomTextFormField(
+                          title: 'Full Name',
                           controller: controller,
+                          hintText: "e.g. Sarah Khalid",
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
                               return "Please enter your name";
                             }
-                            return null;
                           },
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "e.g. Sarah Khalid",
-                            hintStyle: TextStyle(color: Color(0xff6D6D6D)),
-                            filled: true,
-                            fillColor: Color(0xff282828),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          cursorColor: Colors.white,
                         ),
                         SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () async {
                             if (_key.currentState?.validate() ?? false) {
-                              final pref = await SharedPreferences.getInstance();
+                              final pref =
+                                  await SharedPreferences.getInstance();
                               await pref.setString(
                                 "username",
                                 controller.value.text,
