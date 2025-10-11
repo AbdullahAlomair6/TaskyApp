@@ -2,6 +2,7 @@ import 'dart:convert' show jsonEncode, jsonDecode;
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/widget/custom_text_form_field.dart';
 import 'package:tasky/models/task_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         titleTextStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Form(
           key: _key,
           child: Column(
@@ -40,68 +41,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text(
-                        'Task Name',
-                        style: TextStyle(
-                          color: Color(0xffFFFCFC),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      TextFormField(
+                      CustomTextFormField(
+                        title: "Task Name",
                         controller: taskNameController,
+                        hintText: 'Finish UI design for login screen',
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return "Enter your Task Name";
+                            return "Add Task Name! ";
                           }
-                          return null;
+                          ;
                         },
-                        cursorColor: Colors.white,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Finish UI design for login screen',
-                          hintStyle: TextStyle(color: Color(0xff6D6D6D)),
-                          filled: true,
-                          fillColor: Color(0xff282828),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
                       ),
                       SizedBox(height: 20),
-                      Text(
-                        'Task Description',
-                        style: TextStyle(
-                          color: Color(0xffFFFCFC),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      TextFormField(
+                      CustomTextFormField(
+                        title: 'Task Description',
                         controller: taskDescriptionController,
-                        // validator: (String? value) {
-                        //   if (value == null || value.trim().isEmpty) {
-                        //     return 'Enter your Description';
-                        //   }
-                        //   return null;
-                        // },
-                        cursorColor: Colors.white,
+                        hintText:
+                            'Finish onboarding UI and hand off to devs by Thursday.',
                         maxLines: 5,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText:
-                              'Finish onboarding UI and hand off to devs by Thursday.',
-                          hintStyle: TextStyle(color: Color(0xff6D6D6D)),
-                          filled: true,
-                          fillColor: Color(0xff282828),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
                       ),
                       SizedBox(height: 14),
                       Row(

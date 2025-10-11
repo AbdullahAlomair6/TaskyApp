@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
-import 'package:tasky/widgets/task_list_widget.dart';
 
 import '../widgets/high_priority_tasks_widget.dart';
 import '../widgets/sliver_task_list_widget.dart';
