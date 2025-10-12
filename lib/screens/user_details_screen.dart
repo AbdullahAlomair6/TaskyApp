@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/widget/custom_text_form_field.dart';
 
-class UserDetailsScreen extends StatelessWidget {
-  UserDetailsScreen({super.key});
+class UserDetailsScreen extends StatefulWidget {
+  const UserDetailsScreen({
+    super.key,
+    required this.userName,
+    required this.motivationQuote,
+  });
 
-  final TextEditingController userNameController = TextEditingController();
-  final TextEditingController motivationQuoteController =
-      TextEditingController();
+  final String userName;
+  final String? motivationQuote;
+
+  @override
+  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+}
+
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  late final TextEditingController userNameController;
+  late final TextEditingController motivationQuoteController;
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    userNameController = TextEditingController(text: widget.userName);
+    motivationQuoteController = TextEditingController(
+      text: widget.motivationQuote,
+    );
+  }
+
+  void setUserDetails() async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('username', userNameController.value.text);
+    await pref.setString(
+      'motivation_quote',
+      motivationQuoteController.value.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +67,32 @@ class UserDetailsScreen extends StatelessWidget {
                 controller: motivationQuoteController,
                 hintText: 'One task at a time. One step closer.',
                 maxLines: 5,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Add Motivation Quote';
+                  }
+                },
               ),
               Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  if(_key.currentState?.validate() ?? false){
-
+                onPressed: () async {
+                  if (_key.currentState?.validate() ?? false) {
+                    //get shared preference
+                    //save new key -> motivation_quote ->String
+                    // setUserDetails();
+                    final pref = await SharedPreferences.getInstance();
+                    await pref.setString(
+                      'username',
+                      userNameController.value.text,
+                    );
+                    await pref.setString(
+                      'motivation_quote',
+                      motivationQuoteController.value.text,
+                    );
+                    Navigator.of(context).pop(true);
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff15B86C),
-                  foregroundColor: Color(0xffFFFCFC),
                   fixedSize: Size(MediaQuery.of(context).size.width, 40),
                 ),
                 child: Text(

@@ -27,6 +27,12 @@ class MyApp extends StatelessWidget {
           foregroundColor: Color(0xffFFFCFC),
           centerTitle: false,
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Color(0xff15B86C)),
+            foregroundColor: WidgetStateProperty.all(Color(0xffFFFCFC))
+          )
+        ),
         switchTheme: SwitchThemeData(
           trackColor: WidgetStateProperty.resolveWith((state) {
             if (state.contains(WidgetState.selected)) {

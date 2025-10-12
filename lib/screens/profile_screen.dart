@@ -11,7 +11,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late final String userName;
+  late String userName;
+  late String motivationQuote;
   bool isLoading = true;
   bool isDark = false;
 
@@ -19,13 +20,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
 
-    _loadUserName();
+    _loadData();
   }
 
-  void _loadUserName() async {
+  void _loadData() async {
+    setState(() {
+      isLoading = true;
+    });
     final pref = await SharedPreferences.getInstance();
     setState(() {
       userName = pref.getString('username') ?? '';
+      motivationQuote =
+          pref.getString('motivation_quote') ??
+          'One task at a time. One step closer.';
       isLoading = false;
     });
   }
@@ -108,9 +115,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(height: 16),
                 ListTile(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (BuildContext context) =>UserDetailsScreen() ));
+                  onTap: () async {
+                    final bool? result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => UserDetailsScreen(
+                          userName: userName,
+                          motivationQuote: motivationQuote,
+                        ),
+                      ),
+                    );
+
+                    if (result != null && result == true) {
+                      print('updated');
+                      _loadData();
+                    }
                   },
                   contentPadding: EdgeInsets.zero,
 

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/widget/custom_text_form_field.dart';
 import 'package:tasky/screens/home_screen.dart';
+import 'package:tasky/screens/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});
@@ -84,7 +85,7 @@ class WelcomeScreen extends StatelessWidget {
                         CustomTextFormField(
                           title: 'Full Name',
                           controller: controller,
-                          hintText: "e.g. Sarah Khalid",
+                          hintText: "e.g. Abdullah Abdullatif",
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
                               return "Please enter your name";
@@ -105,15 +106,13 @@ class WelcomeScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return HomeScreen();
+                                    return MainScreen();
                                   },
                                 ),
                               );
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff15B86C),
-                            foregroundColor: Color(0xffFFFCFC),
                             fixedSize: Size(
                               MediaQuery.of(context).size.width,
                               40,
