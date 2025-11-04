@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/screens/main_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
+import 'core/services/preferences_manager.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final pref = await SharedPreferences.getInstance();
+  await PreferencesManager().init();
 
-  String? userName = pref.getString('username');
+  String? userName = PreferencesManager().getString('username');
+
   runApp(MyApp(userName: userName));
 }
 
@@ -30,8 +32,8 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(Color(0xff15B86C)),
-            foregroundColor: WidgetStateProperty.all(Color(0xffFFFCFC))
-          )
+            foregroundColor: WidgetStateProperty.all(Color(0xffFFFCFC)),
+          ),
         ),
         switchTheme: SwitchThemeData(
           trackColor: WidgetStateProperty.resolveWith((state) {

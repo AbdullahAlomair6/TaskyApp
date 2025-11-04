@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
 
@@ -37,8 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
     // await Future.delayed(Duration(seconds: 5));
-    final pref = await SharedPreferences.getInstance();
-    final finalTasks = pref.getString('tasks');
+
+    final finalTasks = PreferencesManager().getString('tasks');
     if (finalTasks != null) {
       final tasksDecode = jsonDecode(finalTasks) as List<dynamic>;
 
@@ -53,9 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _loadUserName() async {
-    final pref = await SharedPreferences.getInstance();
     setState(() {
-      userName = pref.getString('username');
+      userName = PreferencesManager().getString('username');
     });
   }
 
@@ -64,9 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
       task[index!].isDone = value ?? false;
       calculatePercent();
     });
-    final pref = await SharedPreferences.getInstance();
     final updatedTask = task.map((element) => element.toJson()).toList();
-    pref.setString('tasks', jsonEncode(updatedTask));
+    await PreferencesManager().setString('tasks', jsonEncode(updatedTask));
   }
 
   calculatePercent() {

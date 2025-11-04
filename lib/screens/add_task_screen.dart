@@ -1,7 +1,7 @@
 import 'dart:convert' show jsonEncode, jsonDecode;
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widget/custom_text_form_field.dart';
 import 'package:tasky/models/task_model.dart';
 
@@ -90,11 +90,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ElevatedButton.icon(
                 onPressed: () async {
                   if (_key.currentState?.validate() ?? false) {
-                    final prf = await SharedPreferences.getInstance();
                     List listOfTasks = [];
 
                     /// to check and get from SharedPreferences
-                    final taskJson = prf.getString('tasks');
+                    final taskJson = PreferencesManager().getString('tasks');
 
                     if (taskJson != null) {
                       listOfTasks = jsonDecode(taskJson);
@@ -113,7 +112,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     // print(listOfTasks);
 
                     // final taskEncode = jsonEncode(listOfTasks);
-                    await prf.setString('tasks', jsonEncode(listOfTasks));
+                    await PreferencesManager().setString(
+                      'tasks',
+                      jsonEncode(listOfTasks),
+                    );
 
                     Navigator.of(context).pop(true);
                   }
