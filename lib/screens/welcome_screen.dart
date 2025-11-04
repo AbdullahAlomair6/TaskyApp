@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widget/custom_text_form_field.dart';
-import 'package:tasky/screens/home_screen.dart';
 import 'package:tasky/screens/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -96,12 +95,11 @@ class WelcomeScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () async {
                             if (_key.currentState?.validate() ?? false) {
-                              final pref =
-                                  await SharedPreferences.getInstance();
-                              await pref.setString(
+                              await PreferencesManager().setString(
                                 "username",
                                 controller.value.text,
                               );
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

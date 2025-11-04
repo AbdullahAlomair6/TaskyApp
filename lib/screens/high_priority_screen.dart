@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/widgets/task_list_widget.dart';
 
 import '../models/task_model.dart';
@@ -24,8 +24,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
   }
 
   void _loadingTask() async {
-    final pref = await SharedPreferences.getInstance();
-    final tasksBeforeDecode = pref.getString('tasks');
+    final tasksBeforeDecode = PreferencesManager().getString('tasks');
     if (tasksBeforeDecode != null) {
       final tasksAfterDecode = jsonDecode(tasksBeforeDecode) as List<dynamic>;
 
@@ -63,7 +62,6 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                   setState(() {
                     completedTasks[index!].isDone = value ?? false;
                   });
-                  final pref = await SharedPreferences.getInstance();
                   // final updateTasks = tasks
                   //    .map((element) => element.toJson())
                   //    .toList();
@@ -76,7 +74,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                   ///   new value on todoTasks (ex: allDataList[newIndex] = todoTasks[index!]; )
                   /// 4. finally save data on SharedPreferences with last update task
 
-                  final allTasks = pref.getString('tasks');
+                  final allTasks =PreferencesManager().getString('tasks');
                   if (allTasks != null) {
                     List<TaskModel> allDataList = (jsonDecode(allTasks) as List)
                         .map((element) => TaskModel.fromJson(element))
@@ -87,7 +85,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                       (e) => e.id == completedTasks[index!].id,
                     );
                     allDataList[newIndex] = completedTasks[index!];
-                    pref.setString('tasks', jsonEncode(allDataList));
+                    await PreferencesManager().setString('tasks', jsonEncode(allDataList));
                   }
 
                   _loadingTask();

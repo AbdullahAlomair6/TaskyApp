@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/screens/user_details_screen.dart';
+import 'package:tasky/screens/welcome_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -27,11 +28,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoading = true;
     });
-    final pref = await SharedPreferences.getInstance();
     setState(() {
-      userName = pref.getString('username') ?? '';
+      userName = PreferencesManager().getString('username') ?? '';
       motivationQuote =
-          pref.getString('motivation_quote') ??
+          PreferencesManager().getString('motivation_quote') ??
           'One task at a time. One step closer.';
       isLoading = false;
     });
@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       Text(
-                        'One task at a time. One step closer.',
+                        motivationQuote,
                         style: TextStyle(
                           color: Color(0XFFC6C6C6),
                           fontWeight: FontWeight.w400,
@@ -173,7 +173,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Divider(color: Color(0XFF6E6E6E)),
                 ListTile(
-                  onTap: () {},
+                  onTap: () async {
+                    await PreferencesManager().remove('username');
+                    await PreferencesManager().remove('tasks');
+                    await PreferencesManager().remove('motivation_quote');
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => WelcomeScreen(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
+                  },
                   contentPadding: EdgeInsets.zero,
                   title: Text(
                     'Log Out',
