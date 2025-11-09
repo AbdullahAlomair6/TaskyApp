@@ -46,11 +46,9 @@ class _TasksScreenState extends State<TasksScreen> {
         children: [
           Text(
             'Completed Tasks',
-            style: TextStyle(
-              color: Color(0XFFFFFCFC),
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium!.copyWith(fontSize: 20),
           ),
           SizedBox(height: 24),
           Expanded(

@@ -74,7 +74,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                   ///   new value on todoTasks (ex: allDataList[newIndex] = todoTasks[index!]; )
                   /// 4. finally save data on SharedPreferences with last update task
 
-                  final allTasks =PreferencesManager().getString('tasks');
+                  final allTasks = PreferencesManager().getString('tasks');
                   if (allTasks != null) {
                     List<TaskModel> allDataList = (jsonDecode(allTasks) as List)
                         .map((element) => TaskModel.fromJson(element))
@@ -85,7 +85,10 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                       (e) => e.id == completedTasks[index!].id,
                     );
                     allDataList[newIndex] = completedTasks[index!];
-                    await PreferencesManager().setString('tasks', jsonEncode(allDataList));
+                    await PreferencesManager().setString(
+                      'tasks',
+                      jsonEncode(allDataList),
+                    );
                   }
 
                   _loadingTask();

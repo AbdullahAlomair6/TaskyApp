@@ -46,11 +46,9 @@ class _CompletedTasksScreenState extends State<CompletedTasksScreen> {
         children: [
           Text(
             'Completed Tasks',
-            style: TextStyle(
-              color: Color(0XFFFFFCFC),
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium!.copyWith(fontSize: 20),
           ),
           SizedBox(height: 24),
           Expanded(
@@ -71,7 +69,10 @@ class _CompletedTasksScreenState extends State<CompletedTasksScreen> {
                   );
                   allListData[newIndex] = completedTasks[index!];
 
-                  await PreferencesManager().setString('tasks', jsonEncode(allListData));
+                  await PreferencesManager().setString(
+                    'tasks',
+                    jsonEncode(allListData),
+                  );
                 }
                 _loadingTask();
               },

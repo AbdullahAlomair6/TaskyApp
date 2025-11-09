@@ -24,12 +24,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: const Color(0xff181818),
-        title: Text('New Task'),
-        titleTextStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-      ),
+      appBar: AppBar(title: Text('New Task')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Form(
@@ -120,7 +115,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     Navigator.of(context).pop(true);
                   }
                 },
-                label: Text('Add Task'),
+                label: Text(
+                  'Add Task',
+                  style: TextStyle(decoration: TextDecoration.none),
+                ),
                 icon: Icon(Icons.add),
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 40),

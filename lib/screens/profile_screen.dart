@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/core/services/theme_controller.dart';
 import 'package:tasky/screens/user_details_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
@@ -15,7 +16,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late String userName;
   late String motivationQuote;
   bool isLoading = true;
-  bool isDark = false;
 
   @override
   void initState() {
@@ -162,12 +162,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   leading: SvgPicture.asset('assets/images/dark_icon.svg'),
-                  trailing: Switch(
-                    value: isDark,
-                    onChanged: (value) {
-                      setState(() {
-                        isDark = value;
-                      });
+                  trailing: ValueListenableBuilder(
+                    valueListenable: ThemeController.themeNotifier,
+                    builder: (BuildContext context, value, Widget? child) {
+                      return Switch(
+                        value: value == ThemeMode.dark,
+                        onChanged: (value) async {
+                          ThemeController.toggleTheme();
+                        },
+                      );
                     },
                   ),
                 ),
