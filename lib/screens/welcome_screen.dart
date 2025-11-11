@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/core/widget/custom_svg_picture.dart';
 import 'package:tasky/core/widget/custom_text_form_field.dart';
 import 'package:tasky/screens/main_screen.dart';
 
@@ -24,19 +25,15 @@ class WelcomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        'assets/images/icon.svg',
+                      CustomSvgPicture.withoutColor(
+                        path: 'assets/images/icon.svg',
                         height: 40,
                         width: 40,
                       ),
                       SizedBox(width: 10),
                       Text(
                         'Tasky',
-                        style: TextStyle(
-                          fontSize: 28,
-                          color: Color(0xffFFFFFF),
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
                     ],
                   ),
@@ -46,15 +43,11 @@ class WelcomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Welcome To Tasky',
-                        style: TextStyle(
-                          color: Color(0xffFFFCFC),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 24,
-                        ),
+                        style: Theme.of(context).textTheme.displaySmall,
                       ),
                       SizedBox(width: 10),
-                      SvgPicture.asset(
-                        'assets/images/waving-hand.svg',
+                      CustomSvgPicture.withoutColor(
+                        path: 'assets/images/waving-hand.svg',
                         height: 28,
                         width: 28,
                       ),
@@ -63,15 +56,13 @@ class WelcomeScreen extends StatelessWidget {
                   SizedBox(height: 20),
                   Text(
                     'Your productivity journey starts here.',
-                    style: TextStyle(
-                      color: Color(0xffFFFCFC),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displaySmall!.copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 24),
-                  SvgPicture.asset(
-                    'assets/images/pana.svg',
+                  CustomSvgPicture.withoutColor(
+                    path: 'assets/images/pana.svg',
                     height: 215,
                     width: 215,
                   ),

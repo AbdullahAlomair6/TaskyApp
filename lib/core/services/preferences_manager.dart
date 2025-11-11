@@ -23,7 +23,15 @@ class PreferencesManager {
     return await _preferences.setString(key, value);
   }
 
-  Future<bool> remove(String key){
+  Future<bool> remove(String key) {
     return _preferences.remove(key);
+  }
+
+  Future<bool> setBool(String key, bool value) async {
+    return await _preferences.setBool(key, value);
+  }
+
+  bool? getBool(String key) {
+    return _preferences.getBool(key);
   }
 }

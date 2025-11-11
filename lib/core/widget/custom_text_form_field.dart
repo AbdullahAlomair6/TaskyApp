@@ -21,14 +21,7 @@ class CustomTextFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: Color(0xffFFFCFC),
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        Text(title, style: Theme.of(context).textTheme.titleMedium),
         SizedBox(height: 8),
         TextFormField(
           controller: controller,
@@ -36,18 +29,8 @@ class CustomTextFormField extends StatelessWidget {
           validator: validator != null
               ? (String? value) => validator!(value)
               : null,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: TextStyle(color: Color(0xff6D6D6D)),
-            filled: true,
-            fillColor: Color(0xff282828),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-          ),
+          style: Theme.of(context).textTheme.labelMedium,
+          decoration: InputDecoration(hintText: hintText),
         ),
       ],
     );

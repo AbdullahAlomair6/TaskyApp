@@ -4,9 +4,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/core/widget/custom_svg_picture.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
 
+import '../core/services/theme_controller.dart';
 import '../widgets/high_priority_tasks_widget.dart';
 import '../widgets/sliver_task_list_widget.dart';
 
@@ -99,19 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             'Good Evening ,$userName ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: Color(0xffFFFCFC),
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Text(
                             'One task at a time.One step closer.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Color(0xffC6C6C6),
-                            ),
+                            style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ],
                       ),
@@ -120,31 +114,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 16),
                   Text(
                     'Yuhuu ,Your work Is',
-                    style: TextStyle(
-                      color: Color(0xffFFFCFC),
-                      fontSize: 32,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Row(
                     children: [
                       Text(
                         'almost done ! ',
-                        style: TextStyle(
-                          color: Color(0xffFFFCFC),
-                          fontSize: 32,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      SvgPicture.asset('assets/images/waving-hand.svg'),
+                      CustomSvgPicture.withoutColor(
+                        path: 'assets/images/waving-hand.svg',
+                      ),
                     ],
                   ),
+                  SizedBox(height: 16),
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Color(0xff282828),
+                      color: Theme.of(context).colorScheme.primaryContainer,
                       borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: ThemeController.isDark()
+                            ? Colors.transparent
+                            : Color(0XFFD1DAD6),
+                      ),
                     ),
                     child: Row(
                       children: [
@@ -154,19 +148,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Text(
                                 'Achieved Tasks',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0XFFFFFCFC),
-                                ),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               Text(
                                 '$totalDoneTasks Out of $totalTasks Done',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0XFFC6C6C6),
-                                ),
+                                style: Theme.of(context).textTheme.titleSmall,
                               ),
                             ],
                           ),
@@ -188,11 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Text(
                               "${percent.toInt()}%",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ],
                         ),
@@ -210,11 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 24),
                   Text(
                     'My Tasks',
-                    style: TextStyle(
-                      color: Color(0XFFFFFCFC),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium!.copyWith(fontSize: 20),
                   ),
                   SizedBox(height: 16),
                 ],
@@ -223,7 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
             isLoading
                 ? SliverToBoxAdapter(
                     child: Center(
-                      child: CircularProgressIndicator(color: Colors.white),
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                     ),
                   )
                 : SliverTaskListWidget(
@@ -249,13 +231,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
             if (result != null && result == true) {
-              print('load task');
               _loadTasks();
             }
           },
           backgroundColor: Color(0xff15B86C),
           foregroundColor: Color(0xffFFFCFC),
-          label: Text('Add New Task'),
+          label: Text(
+            'Add New Task',
+            style: TextStyle(decoration: TextDecoration.none),
+          ),
           icon: Icon(Icons.add),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

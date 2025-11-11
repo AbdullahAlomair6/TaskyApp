@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tasky/core/widget/custom_check_box.dart';
+import 'package:tasky/core/widget/custom_svg_picture.dart';
 import 'package:tasky/models/task_model.dart';
 
+import '../core/services/theme_controller.dart';
 import '../screens/high_priority_screen.dart';
 
 class HighPriorityTasksWidget extends StatelessWidget {
@@ -12,7 +15,7 @@ class HighPriorityTasksWidget extends StatelessWidget {
     required this.refresh,
   });
 
-  final List<TaskModel>  highPriorityList;
+  final List<TaskModel> highPriorityList;
   final Function(bool? value, int? index) onTap;
   final Function refresh;
 
@@ -22,8 +25,13 @@ class HighPriorityTasksWidget extends StatelessWidget {
       padding: EdgeInsetsGeometry.all(14),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0XFF282828),
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: ThemeController.isDark()
+              ? Colors.transparent
+              : Color(0XFFD1DAD6),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,7 +56,7 @@ class HighPriorityTasksWidget extends StatelessWidget {
                     .map((element) {
                       return Row(
                         children: [
-                          Checkbox(
+                          CustomCheckBox(
                             value: element.isDone,
                             onChanged: (bool? value) async {
                               var index = highPriorityList.indexWhere(
@@ -56,24 +64,13 @@ class HighPriorityTasksWidget extends StatelessWidget {
                               );
                               onTap(value, index);
                             },
-                            activeColor: Color(0xff15B86C),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
                           ),
                           Expanded(
                             child: Text(
                               element.taskName,
-                              style: TextStyle(
-                                color: element.isDone
-                                    ? Color(0xffC6C6C6)
-                                    : Color(0xffFFFCFC),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                decoration: element.isDone
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                              ),
+                              style: element.isDone
+                                  ? Theme.of(context).textTheme.labelLarge
+                                  : Theme.of(context).textTheme.titleMedium,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -102,11 +99,10 @@ class HighPriorityTasksWidget extends StatelessWidget {
               padding: EdgeInsetsGeometry.all(14),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                //    borderRadius: BorderRadiusGeometry.circular(100),
                 border: BoxBorder.all(color: Color(0xff6E6E6E)),
                 color: Colors.transparent,
               ),
-              child: SvgPicture.asset('assets/images/arrow2.svg'),
+              child: CustomSvgPicture(path: 'assets/images/arrow2.svg'),
             ),
           ),
         ],

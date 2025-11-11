@@ -45,12 +45,10 @@ class _TasksScreenState extends State<TasksScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Completed Tasks',
-            style: TextStyle(
-              color: Color(0XFFFFFCFC),
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
-            ),
+            'To Do Tasks',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium!.copyWith(fontSize: 20),
           ),
           SizedBox(height: 24),
           Expanded(
