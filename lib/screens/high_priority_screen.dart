@@ -48,11 +48,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
           children: [
             Text(
               'Completed Tasks',
-              style: TextStyle(
-                color: Color(0XFFFFFCFC),
-                fontWeight: FontWeight.w400,
-                fontSize: 20,
-              ),
+              style: Theme.of(context).textTheme.displayLarge,
             ),
             SizedBox(height: 24),
             Expanded(

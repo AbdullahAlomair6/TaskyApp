@@ -4,7 +4,12 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
   scaffoldBackgroundColor: Color(0xffF6F7F9),
-  colorScheme: ColorScheme.light(primaryContainer: Color(0xfffFFFFF)),
+
+  colorScheme: ColorScheme.light(
+    primaryContainer: Color(0xfffFFFFF),
+    secondary: Color(0XFF161F1B),
+  ),
+
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xffF6F7F9),
     titleTextStyle: TextStyle(
@@ -15,6 +20,7 @@ ThemeData lightTheme = ThemeData(
     foregroundColor: Color(0xff161F1B),
     centerTitle: false,
   ),
+
   checkboxTheme: CheckboxThemeData(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     side: BorderSide(color: Color(0xffD1DAD6), width: 2),
@@ -24,6 +30,13 @@ ThemeData lightTheme = ThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.all(Color(0xff15B86C)),
       foregroundColor: WidgetStateProperty.all(Color(0xffFFFCFC)),
+      textStyle: WidgetStateProperty.all(
+        TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          decoration: TextDecoration.none,
+        ),
+      ),
     ),
   ),
 
@@ -57,6 +70,11 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w400,
       fontSize: 14,
       color: Color(0xff3A4640),
+    ),
+    displayLarge: TextStyle(
+      color: Color(0XFF161F1B),
+      fontSize: 20,
+      fontWeight: FontWeight.w400,
     ),
     displayMedium: TextStyle(
       fontSize: 28,
@@ -101,5 +119,29 @@ ThemeData lightTheme = ThemeData(
       borderSide: BorderSide(color: Color(0xffD1DAD6)),
     ),
   ),
-  bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xffF6F7F9)),
+
+  iconTheme: IconThemeData(color: Color(0XFF161F1B)),
+
+  listTileTheme: ListTileThemeData(
+    titleTextStyle: TextStyle(
+      color: Color(0XFF161F1B),
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+  ),
+
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: Colors.black,
+    selectionColor: Colors.black26,
+    selectionHandleColor: Colors.black,
+  ),
+
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Color(0XFFF6F7F9),
+    type: BottomNavigationBarType.fixed,
+    unselectedItemColor: Color(0XFF3A4640),
+    selectedItemColor: Color(0XFF15B86C),
+  ),
+
+  splashFactory: NoSplash.splashFactory,
 );

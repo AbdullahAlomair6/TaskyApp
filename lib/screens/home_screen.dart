@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/core/widget/custom_svg_picture.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
 
@@ -121,7 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         'almost done ! ',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      SvgPicture.asset('assets/images/waving-hand.svg'),
+                      CustomSvgPicture.withoutColor(
+                        path: 'assets/images/waving-hand.svg',
+                      ),
                     ],
                   ),
                   SizedBox(height: 16),
@@ -200,7 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
             isLoading
                 ? SliverToBoxAdapter(
                     child: Center(
-                      child: CircularProgressIndicator(color: Colors.white),
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                     ),
                   )
                 : SliverTaskListWidget(

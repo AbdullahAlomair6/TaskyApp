@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/core/widget/custom_svg_picture.dart';
 import 'package:tasky/core/widget/custom_text_form_field.dart';
 import 'package:tasky/screens/main_screen.dart';
 
@@ -24,8 +25,8 @@ class WelcomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        'assets/images/icon.svg',
+                      CustomSvgPicture.withoutColor(
+                        path: 'assets/images/icon.svg',
                         height: 40,
                         width: 40,
                       ),
@@ -45,8 +46,8 @@ class WelcomeScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.displaySmall,
                       ),
                       SizedBox(width: 10),
-                      SvgPicture.asset(
-                        'assets/images/waving-hand.svg',
+                      CustomSvgPicture.withoutColor(
+                        path: 'assets/images/waving-hand.svg',
                         height: 28,
                         width: 28,
                       ),
@@ -60,8 +61,8 @@ class WelcomeScreen extends StatelessWidget {
                     ).textTheme.displaySmall!.copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 24),
-                  SvgPicture.asset(
-                    'assets/images/pana.svg',
+                  CustomSvgPicture.withoutColor(
+                    path: 'assets/images/pana.svg',
                     height: 215,
                     width: 215,
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/widget/custom_check_box.dart';
+import 'package:tasky/core/widget/custom_svg_picture.dart';
 import 'package:tasky/models/task_model.dart';
 
 import '../core/services/theme_controller.dart';
@@ -101,15 +102,7 @@ class HighPriorityTasksWidget extends StatelessWidget {
                 border: BoxBorder.all(color: Color(0xff6E6E6E)),
                 color: Colors.transparent,
               ),
-              child: SvgPicture.asset(
-                'assets/images/arrow2.svg',
-                colorFilter: ColorFilter.mode(
-                  ThemeController.isDark()
-                      ? Color(0xffC6C6C6)
-                      : Color(0xff3A4640),
-                  BlendMode.srcIn,
-                ),
-              ),
+              child: CustomSvgPicture(path: 'assets/images/arrow2.svg'),
             ),
           ),
         ],

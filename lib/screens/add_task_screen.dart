@@ -61,11 +61,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         children: [
                           Text(
                             'High Priority  ',
-                            style: TextStyle(
-                              color: Color(0xffFFFCFC),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Switch(
                             value: isHighPriority,

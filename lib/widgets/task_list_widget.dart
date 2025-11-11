@@ -22,7 +22,7 @@ class TaskListWidget extends StatelessWidget {
         ? Center(
             child: Text(
               emptyMessage ?? 'No Data',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              style: Theme.of(context).textTheme.displayLarge,
             ),
           )
         : ListView.builder(

@@ -45,7 +45,7 @@ class _TasksScreenState extends State<TasksScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Completed Tasks',
+            'To Do Tasks',
             style: Theme.of(
               context,
             ).textTheme.titleMedium!.copyWith(fontSize: 20),
