@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/services/theme_controller.dart';
 import 'package:tasky/core/widget/custom_svg_picture.dart';
@@ -17,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late String userName;
   late String motivationQuote;
   bool isLoading = true;
+  String? userImage;
 
   @override
   void initState() {
@@ -30,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isLoading = true;
     });
     setState(() {
+      userImage = PreferencesManager().getString("user_image");
       userName = PreferencesManager().getString('username') ?? '';
       motivationQuote =
           PreferencesManager().getString('motivation_quote') ??
@@ -58,14 +63,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         alignment: Alignment.bottomRight,
                         children: [
                           CircleAvatar(
-                            backgroundImage: AssetImage(
-                              'assets/images/profile.png',
-                            ),
+                            backgroundImage: userImage == null
+                                ? AssetImage('assets/images/profile.png')
+                                : FileImage(File(userImage!)),
                             radius: 60,
                             backgroundColor: Colors.transparent,
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () async {
+                              _showSimpleDialog(context, (image) {
+                                _saveImage(image);
+                                setState(() {
+                                  userImage = image.path;
+                                });
+                              });
+                              // _buildShowModalBottomSheet(context);
+                              // XFile? image = await ImagePicker().pickImage(
+                              //   source: ImageSource.gallery,
+                              // );
+                              // if (image != null) {
+                              //   setState(() {
+                              //     _selectedImage = File(image.path);
+                              //   });
+                              // }
+                            },
                             child: Container(
                               height: 45,
                               width: 45,
@@ -177,4 +198,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           );
   }
+
+  _saveImage(XFile image) async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final imagePath = await File(
+      image.path,
+    ).copy("${appDir.path}/${image.name}");
+    PreferencesManager().setString('user_image', imagePath.path);
+  }
+
+  _showSimpleDialog(BuildContext context, Function(XFile) selectedFile) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text(
+            'Choose Image Source',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          children: [
+            SimpleDialogOption(
+              padding: EdgeInsets.all(16),
+              onPressed: () async {
+                Navigator.pop(context);
+                XFile? image = await ImagePicker().pickImage(
+                  source: ImageSource.gallery,
+                );
+                if (image != null) {
+                  selectedFile(image);
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.image_sharp),
+                  SizedBox(width: 8),
+                  Text('Select Gallery'),
+                ],
+              ),
+            ),
+            SimpleDialogOption(
+              padding: EdgeInsets.all(16),
+              onPressed: () async {
+                Navigator.pop(context);
+                XFile? image = await ImagePicker().pickImage(
+                  source: ImageSource.camera,
+                );
+                if (image != null) {
+                  selectedFile(image);
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.camera_alt),
+                  SizedBox(width: 8),
+                  Text('Select Camera'),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // _buildShowModalBottomSheet(BuildContext context) {
+  //
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return DraggableScrollableSheet(
+  //         expand: false,
+  //         initialChildSize: 0.5,
+  //         maxChildSize: 0.8,
+  //         builder: (BuildContext context, ScrollController scrollController) {
+  //           return Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: ListView.builder(
+  //               controller: scrollController,
+  //               itemCount: 100,
+  //               itemBuilder: (BuildContext context, int index) {
+  //                 return Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: Container(height: 30, width: 10, color: Colors.red),
+  //                 );
+  //               },
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 }
