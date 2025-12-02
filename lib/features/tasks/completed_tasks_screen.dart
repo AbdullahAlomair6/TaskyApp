@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
-import 'package:tasky/models/task_model.dart';
+import 'package:tasky/core/compontes/task_list_widget.dart';
 
-import '../widgets/task_list_widget.dart';
+import '../../models/task_model.dart';
 
-class TasksScreen extends StatefulWidget {
-  const TasksScreen({super.key});
+class CompletedTasksScreen extends StatefulWidget {
+  const CompletedTasksScreen({super.key});
 
   @override
-  State<TasksScreen> createState() => _TasksScreenState();
+  State<CompletedTasksScreen> createState() => _CompletedTasksScreenState();
 }
 
-class _TasksScreenState extends State<TasksScreen> {
-  List<TaskModel> todoTasks = [];
+class _CompletedTasksScreenState extends State<CompletedTasksScreen> {
+  List<TaskModel> completedTasks = [];
 
   @override
   void initState() {
@@ -29,9 +29,9 @@ class _TasksScreenState extends State<TasksScreen> {
       final tasksAfterDecode = jsonDecode(tasksBeforeDecode) as List<dynamic>;
 
       setState(() {
-        todoTasks = tasksAfterDecode
+        completedTasks = tasksAfterDecode
             .map((element) => TaskModel.fromJson(element))
-            .where((element) => element.isDone == false)
+            .where((element) => element.isDone == true)
             .toList();
       });
     }
@@ -45,7 +45,7 @@ class _TasksScreenState extends State<TasksScreen> {
       allData = allTasksAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
       allData.removeWhere((e) => e.id == id);
       setState(() {
-        todoTasks.removeWhere((e) => e.id == id);
+        completedTasks.removeWhere((e) => e.id == id);
       });
 
       final taskAfterDelete = allData.map((e) => e.toJson()).toList();
@@ -61,7 +61,7 @@ class _TasksScreenState extends State<TasksScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'To Do Tasks',
+            'Completed Tasks',
             style: Theme.of(
               context,
             ).textTheme.titleMedium!.copyWith(fontSize: 20),
@@ -69,46 +69,34 @@ class _TasksScreenState extends State<TasksScreen> {
           SizedBox(height: 24),
           Expanded(
             child: TaskListWidget(
-              tasks: todoTasks,
-              onTap: (value, index) async {
+              tasks: completedTasks,
+              onTap: (isCompleted, index) async {
                 setState(() {
-                  todoTasks[index!].isDone = value ?? false;
+                  completedTasks[index!].isDone = isCompleted ?? false;
                 });
-                // final updateTasks = tasks
-                //    .map((element) => element.toJson())
-                //    .toList();
-
-                /// 1. need to get all list to avoid save the todoTasks to SharedPreferences
-                ///   and replace old list in SharedPreferences with only todoList
-                /// 2. check using indexWhere with bool to return (todoTasks[index!].id) index
-                ///   using id on TaskModel (ex: e.id == todoTasks[index!].id )
-                /// 3. after checked then reassigned object in the allTasks (List) with
-                ///   new value on todoTasks (ex: allDataList[newIndex] = todoTasks[index!]; )
-                /// 4. finally save data on SharedPreferences with last update task
 
                 final allTasks = PreferencesManager().getString('tasks');
                 if (allTasks != null) {
-                  final allDataList = (jsonDecode(allTasks) as List)
+                  final allListData = (jsonDecode(allTasks) as List)
                       .map((element) => TaskModel.fromJson(element))
                       .toList();
-
-                  /// read my own note to know what indexWhere do
-                  final newIndex = allDataList.indexWhere(
-                    (e) => e.id == todoTasks[index!].id,
+                  final newIndex = allListData.indexWhere(
+                    (element) => element.id == completedTasks[index!].id,
                   );
-                  allDataList[newIndex] = todoTasks[index!];
+                  allListData[newIndex] = completedTasks[index!];
+
                   await PreferencesManager().setString(
                     'tasks',
-                    jsonEncode(allDataList),
+                    jsonEncode(allListData),
                   );
                 }
-
                 _loadingTask();
               },
               emptyMessage: 'No Tasks Found',
               onDelete: (int id) {
                 _onDelete(id);
-              }, updateTask: ()=>_loadingTask(),
+              },
+              updateTask: () => _loadingTask(),
             ),
           ),
         ],

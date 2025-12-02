@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widget/custom_svg_picture.dart';
+import 'package:tasky/features/home/compontes/achieved_tasks_widget.dart';
 import 'package:tasky/models/task_model.dart';
-import 'package:tasky/screens/add_task_screen.dart';
+import 'package:tasky/features/add_tasks/add_task_screen.dart';
 
-import '../core/services/theme_controller.dart';
-import '../widgets/high_priority_tasks_widget.dart';
-import '../widgets/sliver_task_list_widget.dart';
+import '../../core/services/theme_controller.dart';
+import 'compontes/high_priority_tasks_widget.dart';
+import 'compontes/sliver_task_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -140,58 +141,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   SizedBox(height: 16),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: ThemeController.isDark()
-                            ? Colors.transparent
-                            : Color(0XFFD1DAD6),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Achieved Tasks',
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              Text(
-                                '$totalDoneTasks Out of $totalTasks Done',
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Transform.rotate(
-                              angle: -pi / 2,
-                              child: SizedBox(
-                                height: 48,
-                                width: 48,
-                                child: CircularProgressIndicator(
-                                  value: percent / 100,
-                                  color: Color(0xff15B86C),
-                                  backgroundColor: Color(0xff6D6D6D),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "${percent.toInt()}%",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  AchievedTasksWidget(
+                    totalDoneTasks: totalDoneTasks,
+                    totalTasks: totalTasks,
+                    percent: percent,
                   ),
                   SizedBox(height: 8),
                   HighPriorityTasksWidget(
