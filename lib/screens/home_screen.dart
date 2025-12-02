@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? userName = '';
+  String? userImage;
   List<TaskModel> task = [];
   bool isLoading = false;
   int totalDoneTasks = 0;
@@ -54,9 +56,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  _onDelete(int id) {
+    setState(() {
+      task.removeWhere((element) => element.id == id);
+      calculatePercent();
+    });
+    final taskAfterDelete = task.map((element) => element.toJson()).toList();
+    PreferencesManager().setString('tasks', jsonEncode(taskAfterDelete));
+  }
+
   void _loadUserName() async {
     setState(() {
       userName = PreferencesManager().getString('username');
+      userImage = PreferencesManager().getString('user_image');
     });
   }
 
@@ -91,9 +103,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                        backgroundImage: AssetImage(
-                          'assets/images/profile.png',
-                        ),
+                        backgroundImage: userImage == null
+                            ? AssetImage('assets/images/profile.png')
+                            : FileImage(File(userImage!)),
                       ),
                       SizedBox(width: 8),
                       Column(
@@ -213,6 +225,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: (value, index) {
                       _doneTasks(value, index);
                     },
+                    onDelete: (int id) => _onDelete(id),
+                    updateTask: () => _loadTasks(),
                   ),
           ],
         ),

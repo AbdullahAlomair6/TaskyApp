@@ -40,6 +40,10 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
 
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(foregroundColor: WidgetStateProperty.all(Colors.black)),
+  ),
+
   switchTheme: SwitchThemeData(
     trackColor: WidgetStateProperty.resolveWith((state) {
       if (state.contains(WidgetState.selected)) {
@@ -144,4 +148,23 @@ ThemeData lightTheme = ThemeData(
   ),
 
   splashFactory: NoSplash.splashFactory,
+
+  popupMenuTheme: PopupMenuThemeData(
+    color: Color(0xfffFFFFF),
+    elevation: 4,
+    shadowColor: Color(0XFF15B86C),
+    labelTextStyle: WidgetStateProperty.all(
+      TextStyle(
+        color: Color(0xff161F1B),
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+      ),
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+      side: BorderSide(color: Color(0XFF15B86C)),
+    ),
+  ),
+
+  bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xffF6F7F9)),
 );

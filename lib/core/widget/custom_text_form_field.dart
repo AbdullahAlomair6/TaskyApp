@@ -29,7 +29,6 @@ class CustomTextFormField extends StatelessWidget {
           validator: validator != null
               ? (String? value) => validator!(value)
               : null,
-          style: Theme.of(context).textTheme.labelMedium,
           decoration: InputDecoration(hintText: hintText),
         ),
       ],

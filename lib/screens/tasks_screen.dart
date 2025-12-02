@@ -37,6 +37,22 @@ class _TasksScreenState extends State<TasksScreen> {
     }
   }
 
+  _onDelete(id) {
+    List<TaskModel> allData = [];
+    final allTasks = PreferencesManager().getString('tasks');
+    if (allTasks != null) {
+      final allTasksAfterDecode = jsonDecode(allTasks) as List;
+      allData = allTasksAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
+      allData.removeWhere((e) => e.id == id);
+      setState(() {
+        todoTasks.removeWhere((e) => e.id == id);
+      });
+
+      final taskAfterDelete = allData.map((e) => e.toJson()).toList();
+      PreferencesManager().setString('tasks', jsonEncode(taskAfterDelete));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -72,7 +88,7 @@ class _TasksScreenState extends State<TasksScreen> {
 
                 final allTasks = PreferencesManager().getString('tasks');
                 if (allTasks != null) {
-                  List<TaskModel> allDataList = (jsonDecode(allTasks) as List)
+                  final allDataList = (jsonDecode(allTasks) as List)
                       .map((element) => TaskModel.fromJson(element))
                       .toList();
 
@@ -90,6 +106,9 @@ class _TasksScreenState extends State<TasksScreen> {
                 _loadingTask();
               },
               emptyMessage: 'No Tasks Found',
+              onDelete: (int id) {
+                _onDelete(id);
+              }, updateTask: ()=>_loadingTask(),
             ),
           ),
         ],
